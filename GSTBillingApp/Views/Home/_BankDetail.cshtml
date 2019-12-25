@@ -10,18 +10,34 @@
         <div class="row">
             <div class="col-12">
                 <div class="table-responsive">
-                    <table class="table table-borderless table-hover device-table">
-                        <thead class="thead-dark bg-info text-white">
+                    <table class="table table-borderless table-hover" id="OwnerBankDetailsTable">
+                        <thead class=" bg-info text-white">
                             <tr>
-                                <td>Bank Name</td>
-                                <td>Branch Name</td>
-                                <td>Account Number</td>
-                                <td>IFSC Code</td>
+                                <th class="d-none"></th>
+                                <th class="d-none"></th>
+                                <th>Bank Name</th>
+                                <th>Branch Name</th>
+                                <th>Account Number</th>
+                                <th>IFSC Code</th>
 
 
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                            @foreach (var item in Model.OwnerBank.OwnerBankList)
+                            {
+                                <tr>
+                                    <td class="d-none">@Html.HiddenFor(model => item.Id)</td>
+                                    <td class="d-none">@Html.HiddenFor(model => item.BankUID)</td>
+                                    <td>@Html.DisplayFor(model => item.BankName)</td>
+                                    <td>@Html.DisplayFor(model => item.Branch)</td>
+                                    <td>@Html.DisplayFor(model => item.AccountNumber)</td>
+                                    <td>@Html.DisplayFor(model => item.IFSC)</td>
+                                </tr>
+                            }
+
+
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -80,18 +96,18 @@
 
                             <label class="control-label">Bank Name</label>
 
-                            @Html.ValidationMessageFor(m => m.OwnerBank.BankName, "", new { @class = "text-danger" })
-                            @Html.TextBoxFor(model => model.OwnerBank.BankName, htmlAttributes: new { @class = "form-control", })
 
+                            @Html.TextBoxFor(model => model.OwnerBank.BankName, htmlAttributes: new { @class = "form-control", })
+                            @Html.ValidationMessageFor(m => m.OwnerBank.BankName, "", new { @class = "text-danger" })
 
                         </div>
 
                         <div class="form-group has-danger mb-1">
 
                             <label class="control-label">Branch Name</label>
-                            @Html.ValidationMessageFor(m => m.OwnerBank.Branch, "", new { @class = "text-danger" })
-                            @Html.TextBoxFor(model => model.OwnerBank.Branch, htmlAttributes: new { @class = "form-control", })
 
+                            @Html.TextBoxFor(model => model.OwnerBank.Branch, htmlAttributes: new { @class = "form-control", })
+                            @Html.ValidationMessageFor(m => m.OwnerBank.Branch, "", new { @class = "text-danger" })
 
                         </div>
 
@@ -99,9 +115,9 @@
                         <div class="form-group has-danger mb-1">
 
                             <label class="control-label">Account Number</label>
-                            @Html.ValidationMessageFor(m => m.OwnerBank.AccountNumber, "", new { @class = "text-danger" })
-                            @Html.TextBoxFor(model => model.OwnerBank.AccountNumber, htmlAttributes: new { @class = "form-control", type = "number", @min = "0", oninput = "validity.valid||(value='')" })
 
+                            @Html.TextBoxFor(model => model.OwnerBank.AccountNumber, htmlAttributes: new { @class = "form-control", type = "number", @min = "0", oninput = "validity.valid||(value='')" })
+                            @Html.ValidationMessageFor(m => m.OwnerBank.AccountNumber, "", new { @class = "text-danger" })
 
                         </div>
 
@@ -110,13 +126,13 @@
 
                             <label class="control-label">IFSC Code</label>
 
-                            @Html.ValidationMessageFor(m => m.OwnerBank.IFSC, "", new { @class = "text-danger" })
-                            @Html.TextBoxFor(model => model.OwnerBank.IFSC, htmlAttributes: new { @class = "form-control", })
 
+                            @Html.TextBoxFor(model => model.OwnerBank.IFSC, htmlAttributes: new { @class = "form-control", })
+                            @Html.ValidationMessageFor(m => m.OwnerBank.IFSC, "", new { @class = "text-danger" })
 
                         </div>
 
-                       
+
 
                     </div>
 
@@ -124,9 +140,10 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-rounded btn-sm text-left" id="BankDeleteBtn" style="display:none">Delete</button>
+                
+                <button type="button" class="btn btn-danger btn-rounded btn-sm text-left" id="BankDeleteBtn" style="display:none" onclick="DeleteOwnerBankDetail()">Delete</button>
                 <button type="button" class="btn btn-info btn-rounded btn-sm" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-info btn-rounded btn-sm " id="AddABankDetailBtn">Save Information</button>
+                <button type="button" class="btn btn-info btn-rounded btn-sm " id="AddBankDetailBtn">Save Information</button>
             </div>
         </div>
     </div>

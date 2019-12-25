@@ -9,7 +9,7 @@ namespace GSTBillingApp.Models
     public class OwnerBankDetail
     {
 
-        public List<OwnerBankDetail> OwnerBankList { get; set; }
+        public List<OwnerBankDetail> OwnerBankList { get; set; } = new List<OwnerBankDetail>();
         public int Id { get; set; }
 
         public string BankUID { get; set; }

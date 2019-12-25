@@ -1,4 +1,5 @@
-﻿using DAL.BillingServices;
+﻿using DAL.BillingEntities;
+using DAL.BillingServices;
 using GSTBillingApp.Models;
 using System;
 using System.Collections.Generic;
@@ -78,7 +79,8 @@ namespace GSTBillingApp.Classes
                     
                 }
 
-                foreach (var item in Data.OwnerBankDetails.OwnerBankList)
+                foreach (var item in 
+Data.OwnerBankDetails.OwnerBankList)
                 {
                     model.OwnerBank.OwnerBankList.Add(new OwnerBankDetail()
                     {
@@ -96,5 +98,96 @@ namespace GSTBillingApp.Classes
             return model;
 
         }
+
+        public static OwnerAddress GetAddressById(int AddressId)
+        {
+            OwnerAddress ownerAddress = new OwnerAddress();
+
+            var Data = OwnerService.GetOwnerAddressById(AddressId);
+
+            if (Data !=null )
+            {
+                ownerAddress.Id = Data.Id;
+                ownerAddress.Street1 = Data.Street1;
+                ownerAddress.Street2 = Data.Street2;
+                ownerAddress.City = Data.City;
+                ownerAddress.PostCode = Data.PostCode;
+                ownerAddress.StateId = Data.StateId;
+            }
+
+            return ownerAddress;
+        }
+
+        public static bool DeleteOwnerAddres(int AddressId , int OwnerId)
+        {
+            return OwnerService.DeleteOwnerAddress(AddressId, OwnerId);
+        }
+
+        public static OwnerBankDetail GetOwnerBankDetailById(int BankId)
+        {
+            OwnerBankDetail bankDetail = new OwnerBankDetail();
+
+            var Data = OwnerService.GetOwnerBankDetail(BankId);
+
+            if (Data !=null)
+            {
+                bankDetail.Id = Data.Id;
+                bankDetail.BankName = Data.BankName;
+                bankDetail.Branch = Data.Branch;
+                bankDetail.AccountNumber = Data.AccountNumber;
+                bankDetail.IFSC = Data.IFSC;
+            }
+
+            return bankDetail;
+
+        }
+
+        public static bool DeleteBankDetails(int BankId, int OwnerId)
+        {
+            return OwnerService.DeleteBankDetail(BankId, OwnerId);
+        }
+
+        public static bool CreateUpdateOwner(ManageOwnerViewModel model)
+        {
+            ManageOwnerEntity entity = new ManageOwnerEntity();
+            entity.OwnerAddress = new OwnerAddressEntity();
+            entity.OwnerBankDetails = new OwnerBankDetailEntity();
+
+            entity.OwnerId = model.OwnerId;
+            entity.OwnerName = model.OwnerName;
+            entity.ContactNo = model.ContactNumber;
+            entity.GSTNo = model.GSTNumber;
+            entity.Juridication = model.Juridication;
+            entity.BusinessType = model.BusiniessType;
+
+            foreach (var item in model.OwnerAddresses.AddressList)
+            {
+                entity.OwnerAddress.AddressList.Add(new OwnerAddressEntity()
+                {
+                    Street1 = item.Street1,
+                    City = item.City,
+                    Id = item.Id,
+                    PostCode = item.PostCode,
+                    StateId = item.StateId,
+                    Street2 = item.Street2
+                });
+            }
+
+            foreach (var item in model.OwnerBank.OwnerBankList)
+            {
+                entity.OwnerBankDetails.OwnerBankList.Add(new OwnerBankDetailEntity()
+                {
+                    AccountNumber=item.AccountNumber,
+                    BankName=item.BankName,
+                    Branch=item.Branch,
+                    Id=item.Id,
+                    IFSC=item.IFSC
+                });
+            }
+
+            return OwnerService.CreateUpdateOwner(entity);
+                
+        }
+
     }
 }

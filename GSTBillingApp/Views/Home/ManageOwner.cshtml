@@ -13,17 +13,19 @@
 
 
                 <div class="card-body">
-
+                    @Html.ValidationSummary("", new { @class = "text-danger p-0" })
                     <p class="card-description p-0 m-0 font-weight-normal text-info h4">
                         Owner Details
                         <hr />
                     </p>
                     <div class="row ">
+
                         <div class="col-md-6">
+
                             <div class="form-group row">
                                 <label class="col-sm-3 col-form-label text-info font-weight-normal">Owner Name</label>
                                 <div class="col-sm-9">
-                                    @Html.HiddenFor(model=>model.OwnerId)
+                                    @Html.HiddenFor(model => model.OwnerId)
                                     @Html.TextBoxFor(model => model.OwnerName, htmlAttributes: new { @class = "form-control", placeholder = "Owner Name" })
                                 </div>
                             </div>
@@ -38,8 +40,6 @@
                             </div>
                         </div>
                     </div>
-
-
 
                     <div class="row ">
                         <div class="col-md-6">
@@ -64,14 +64,14 @@
                         @Html.Partial("_Address", Model)
                     </div>
 
-                   
-                    <div id="OwnerBankView">
-                        @Html.Partial("_BankDetail",Model)
+
+                    <div id="BankPartialView">
+                        @Html.Partial("_BankDetail", Model)
                     </div>
 
                     <div class="row mt-2">
                         <div class="col-12 text-right">
-                            <button class="btn  btn-info">Save Changes</button>
+                            <button class="btn  btn-info" type="submit">Save Changes</button>
                         </div>
                     </div>
                 </div>

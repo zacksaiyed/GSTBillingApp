@@ -2,6 +2,7 @@
 using DAL.BillingEntities;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace DAL.BillingServices
@@ -140,7 +141,8 @@ namespace DAL.BillingServices
                             Branch = ds.Tables[2].Rows[i]["BranchName"].ToString(),
                             AccountNumber = Convert.ToInt32(ds.Tables[2].Rows[i]["AccountNumber"].ToString()),
                             IFSC = ds.Tables[2].Rows[i]["IFSCCode"].ToString()
-                        });
+                        
+});
                     }
 
                 }
@@ -155,5 +157,178 @@ namespace DAL.BillingServices
 
             return entity;
         }
+
+        public static OwnerAddressEntity GetOwnerAddressById(int AddressId)
+        {
+            OwnerAddressEntity ownerAddressEntity = new OwnerAddressEntity();
+
+            try
+            {
+                SqlParameter[] values =
+                {
+                    new SqlParameter("@AdressId",AddressId)
+                };
+                var ds = SqlHelper.GetResultSet("USP_GetOwnerAddressById", values);
+
+                if (ds.Tables[0].Rows.Count>0)
+                {
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                    {
+                        ownerAddressEntity.Id = Convert.ToInt32(ds.Tables[0].Rows[i]["Id"].ToString());
+                        ownerAddressEntity.Street1 = ds.Tables[0].Rows[i]["Street1"].ToString();
+                        ownerAddressEntity.Street2 = ds.Tables[0].Rows[i]["Street2"].ToString();
+                        ownerAddressEntity.City = ds.Tables[0].Rows[i]["City"].ToString();
+                        ownerAddressEntity.PostCode = Convert.ToInt32(ds.Tables[0].Rows[i]["PostCode"].ToString());
+                        ownerAddressEntity.StateId = Convert.ToInt32(ds.Tables[0].Rows[i]["StateId"].ToString());
+
+                    }
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                ApplicationCommon.WriteLog(ex.Message);
+            }
+
+
+            return ownerAddressEntity;
+        }
+
+        public static bool DeleteOwnerAddress(int AddressId ,int OwnerId)
+        {
+            try
+            {
+                SqlParameter[] values =
+                {
+                    new SqlParameter("@OwnerId",OwnerId),
+                    new SqlParameter("@AddressId",AddressId)
+                    
+                };
+
+                var i = SqlHelper.ExecuteSp("USP_DeleteOwnerAddress", values);
+
+                return i > 0;
+            }
+            catch (Exception ex)
+            {
+
+                ApplicationCommon.WriteLog(ex.Message);
+            }
+
+            return false;
+        }
+
+        public static OwnerBankDetailEntity GetOwnerBankDetail(int BankId)
+        {
+            OwnerBankDetailEntity owner = new OwnerBankDetailEntity();
+
+            try
+            {
+                SqlParameter[] values =
+                  {
+                new SqlParameter("@BankId",BankId)
+            };
+
+                var ds = SqlHelper.GetResultSet("USP_GetBankDetailById", values);
+
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                    {
+                        owner.Id = Convert.ToInt32(ds.Tables[0].Rows[i]["Id"].ToString());
+                        owner.BankName = ds.Tables[0].Rows[i]["BankName"].ToString();
+                        owner.Branch = ds.Tables[0].Rows[i]["BranchName"].ToString();
+                        owner.AccountNumber = Convert.ToInt32(ds.Tables[0].Rows[i]["AccountNumber"].ToString());
+                        owner.IFSC = ds.Tables[0].Rows[i]["IFSCCode"].ToString();
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                ApplicationCommon.WriteLog(ex.Message);
+            }
+
+            return owner;
+        }
+
+        public static bool DeleteBankDetail(int BankId, int OwnerId)
+        {
+            try
+            {
+                SqlParameter[] values =
+                {
+                    new SqlParameter("@OwnerId",OwnerId),
+                    new SqlParameter("@BankId",BankId)
+
+                };
+
+                var i = SqlHelper.ExecuteSp("USP_DeleteBankDetail", values);
+
+                return i > 0;
+            }
+            catch (Exception ex)
+            {
+
+                ApplicationCommon.WriteLog(ex.Message);
+            }
+
+            return false;
+        }
+
+
+        public static bool CreateUpdateOwner(ManageOwnerEntity response)
+        {
+
+            try
+            {
+
+                DataTable AddressTable = UserDefinedDataTable.AddressDataTable();
+                foreach (var item in response.OwnerAddress.AddressList)
+                {
+                    AddressTable.Rows.Add(item.Id, item.Street1, item.Street2, item.City, item.PostCode, item.StateId,response.OwnerId);
+
+                }
+
+                DataTable BankTable = UserDefinedDataTable.BankDataTable();
+                foreach (var item in response.OwnerBankDetails.OwnerBankList)
+                {
+                    BankTable.Rows.Add(item.Id, item.BankName, item.Branch, item.AccountNumber, item.IFSC, response.OwnerId);
+                }
+
+                //con.Open();
+
+                SqlParameter[] values =
+                {
+                    new SqlParameter("@OwnerId",response.OwnerId),
+                    new SqlParameter("@OwnerName",response.OwnerName),
+                    new SqlParameter("@ContactNo",response.ContactNo),
+                    new SqlParameter("@GSTNo",response.GSTNo),
+                    new SqlParameter("@Juridication",response.Juridication),
+                    new SqlParameter("@BusinessType",response.BusinessType),
+                    new SqlParameter("@OwnerAddresses",AddressTable),
+                    new SqlParameter("@OwnerBankDetails",BankTable)
+                    
+
+                };
+
+                var ds = SqlHelper.ExecuteSp("USP_CreateUpdateOwner", values);
+                return ds > 0;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+
+            }
+
+            return false;
+
+        }
+
     }
 }

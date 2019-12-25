@@ -9,18 +9,35 @@
         <div class="row">
             <div class="col-12">
                 <div class="table-responsive">
-                    <table class="table table-borderless table-hover device-table">
-                        <thead class="thead-dark bg-info text-white">
+                    <table class="table table-borderless table-hover" id="OwnerAddressTable" >
+                        <thead class="bg-info text-white">
                             <tr>
-                                <td>Street 1</td>
-                                <td>Street 2</td>
-                                <td>City</td>
-                                <td>Post Code</td>
-                                <td>State</td>
+                                <th class="d-none"></th>
+                                <th class="d-none"></th>
+                                <th>Street 1</th>
+                                <th>Street 2</th>
+                                <th>City</th>
+                                <th>Post Code</th>
+                                <th>State</th>
 
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody>
+                            @foreach (var item in Model.OwnerAddresses
+                                .AddressList)
+                            {
+                                <tr>
+                                    <td class="d-none">@Html.HiddenFor(model=>item.Id)</td>
+                                    <td class="d-none">@Html.HiddenFor(model => item.AddressUIId)</td>
+                                    <td>@Html.DisplayFor(model=>item.Street1)</td>
+                                    <td>@Html.DisplayFor(model=>item.Street2)</td>
+                                    <td>@Html.DisplayFor(model=>item.City)</td>
+                                    <td>@Html.DisplayFor(model=>item.PostCode)</td>
+                                    <td>@Html.DisplayFor(model=>item.StateValue)</td>
+                                </tr>
+                            }
+
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -81,28 +98,28 @@
 
                             <label class="control-label">Street 1</label>
 
-                            @Html.ValidationMessageFor(m => m.OwnerAddresses.Street1, "", new { @class = "text-danger" })
-                            @Html.TextBoxFor(model => model.OwnerAddresses.Street1, htmlAttributes: new { @class = "form-control", })
 
+                            @Html.TextBoxFor(model => model.OwnerAddresses.Street1, htmlAttributes: new { @class = "form-control", })
+                            @Html.ValidationMessageFor(m => m.OwnerAddresses.Street1, "", new { @class = "text-danger" })
 
                         </div>
 
                         <div class="form-group has-danger mb-1">
-                            
-                            <label class="control-label">Street 2</label>
-                            @Html.ValidationMessageFor(m => m.OwnerAddresses.Street2, "", new { @class = "text-danger" })
-                            @Html.TextBoxFor(model => model.OwnerAddresses.Street2, htmlAttributes: new { @class = "form-control", })
 
-                            
+                            <label class="control-label">Street 2</label>
+
+                            @Html.TextBoxFor(model => model.OwnerAddresses.Street2, htmlAttributes: new { @class = "form-control", })
+                            @Html.ValidationMessageFor(m => m.OwnerAddresses.Street2, "", new { @class = "text-danger" })
+
                         </div>
 
 
                         <div class="form-group has-danger mb-1">
 
                             <label class="control-label">City</label>
-                            @Html.ValidationMessageFor(m => m.OwnerAddresses.City, "", new { @class = "text-danger" })
-                            @Html.TextBoxFor(model => model.OwnerAddresses.City, htmlAttributes: new { @class = "form-control", })
 
+                            @Html.TextBoxFor(model => model.OwnerAddresses.City, htmlAttributes: new { @class = "form-control", })
+                            @Html.ValidationMessageFor(m => m.OwnerAddresses.City, "", new { @class = "text-danger" })
 
                         </div>
 
@@ -111,18 +128,18 @@
 
                             <label class="control-label">Post Code</label>
 
-                            @Html.ValidationMessageFor(m => m.OwnerAddresses.PostCode, "", new { @class = "text-danger" })
-                            @Html.TextBoxFor(model => model.OwnerAddresses.PostCode, htmlAttributes: new { @class = "form-control", })
 
+                            @Html.TextBoxFor(model => model.OwnerAddresses.PostCode, htmlAttributes: new { @class = "form-control", type = "number", @min = "0", oninput = "validity.valid||(value='')" })
+                            @Html.ValidationMessageFor(m => m.OwnerAddresses.PostCode, "", new { @class = "text-danger" })
 
                         </div>
 
                         <div class="form-group has-danger mb-1">
                             <label class="control-label">State</label>
 
-                            @Html.ValidationMessageFor(m => m.OwnerAddresses.StateId, "", new { @class = "text-danger" })
-                            @Html.DropDownListFor(model => model.OwnerAddresses.StateId, Model.OwnerAddresses.StateDD, new { @class = "form-control" })
 
+                            @Html.DropDownListFor(model => model.OwnerAddresses.StateId, Model.OwnerAddresses.StateDD, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.OwnerAddresses.StateId, "", new { @class = "text-danger" })
 
                         </div>
 
@@ -132,7 +149,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-rounded btn-sm text-left" id="AddressDeleteBtn" style="display:none">Delete</button>
+                <button type="button" class="btn btn-danger btn-rounded btn-sm text-left" id="AddressDeleteBtn" style="display:none" onclick="DeleteOwnerAddress()">Delete</button>
                 <button type="button" class="btn btn-info btn-rounded btn-sm" data-dismiss="modal">Cancel</button>
                 <button type="button" class="btn btn-info btn-rounded btn-sm " id="AddAddressBtn">Save Information</button>
             </div>

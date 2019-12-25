@@ -4,7 +4,7 @@ namespace DAL.BillingEntities
 {
     public class OwnerBankDetailEntity
     {
-        public List<OwnerBankDetailEntity> OwnerBankList { get; set; }
+        public List<OwnerBankDetailEntity> OwnerBankList { get; set; } = new List<OwnerBankDetailEntity>();
         public int Id { get; set; }
         public string BankName { get; set; }
         public string Branch { get; set; }
