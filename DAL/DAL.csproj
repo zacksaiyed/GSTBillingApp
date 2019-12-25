@@ -46,7 +46,12 @@
     <Compile Include="BillingCommon\ApplicationCommon.cs" />
     <Compile Include="BillingCommon\ApplicationConstant.cs" />
     <Compile Include="BillingCommon\SqlHelper.cs" />
+    <Compile Include="BillingCommon\UserDefinedDataTable.cs" />
+    <Compile Include="BillingEntities\ManageOwnerEntity.cs" />
+    <Compile Include="BillingEntities\OwnerAddressEntity.cs" />
+    <Compile Include="BillingEntities\OwnerBankDetailEntity.cs" />
     <Compile Include="BillingEntities\OwnerEntitiy.cs" />
+    <Compile Include="BillingEntities\StateDropDownEntity.cs" />
     <Compile Include="BillingServices\OwnerService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

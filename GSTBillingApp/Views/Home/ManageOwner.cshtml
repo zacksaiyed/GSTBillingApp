@@ -1,0 +1,93 @@
+﻿@model GSTBillingApp.Models.ManageOwnerViewModel
+@{
+    ViewBag.Title = "ManageOwner";
+}
+<form method="post" id="ManageOwner">
+    <div class="container-fluid">
+
+
+        <div class="row ">
+
+
+            <div class="card col-12  bg-light border-light">
+
+
+                <div class="card-body">
+
+                    <p class="card-description p-0 m-0 font-weight-normal text-info h4">
+                        Owner Details
+                        <hr />
+                    </p>
+                    <div class="row ">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label text-info font-weight-normal">Owner Name</label>
+                                <div class="col-sm-9">
+                                    @Html.HiddenFor(model=>model.OwnerId)
+                                    @Html.TextBoxFor(model => model.OwnerName, htmlAttributes: new { @class = "form-control", placeholder = "Owner Name" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label text-info font-weight-normal ">Contact Number</label>
+                                <div class="col-sm-9">
+                                    @Html.TextBoxFor(model => model.ContactNumber, htmlAttributes: new { @class = "form-control", placeholder = "Contact Number" , type = "number", @min = "0",oninput = "validity.valid||(value='')"
+                               })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="row ">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label text-info font-weight-normal">GST Number</label>
+                                <div class="col-sm-9">
+                                    @Html.TextBoxFor(model => model.GSTNumber, htmlAttributes: new { @class = "form-control", placeholder = "GST Number" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-sm-3 col-form-label text-info font-weight-normal">Juridication</label>
+                                <div class="col-sm-9">
+                                    @Html.TextBoxFor(model => model.Juridication, htmlAttributes: new { @class = "form-control", placeholder = "Juridication" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="AddressesPartialView">
+                        @Html.Partial("_Address", Model)
+                    </div>
+
+                   
+                    <div id="OwnerBankView">
+                        @Html.Partial("_BankDetail",Model)
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-12 text-right">
+                            <button class="btn  btn-info">Save Changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+
+    </div>
+
+    @section scripts{
+
+        <script src="~/js/jsOwner.js"></script>
+    }
+
+</form>

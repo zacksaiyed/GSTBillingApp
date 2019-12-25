@@ -3,45 +3,69 @@
     ViewBag.Title = "Home Page";
 }
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-4 mt-2">
-            <div class="form-group">
-                <button class="btn btn-light btn-toolbar" type="button"> Add  Owner</button>
+<div class="row" style="height:560px">
+    <div class="col-12 h-100 bg-light">
+        <div class="row mt-4">
+
+            <div class="col-8 ">
+                <div class="form-group">
+                    <div class="text-info h4">Owner Dashboard</div>
+                </div>
             </div>
+            <div class="col-4 ">
+                <div class="form-group text-right">
+
+
+                    <button class="btn btn-info" type="button">Add  Owner <span class="fa fa-plus"></span></button>
+
+                </div>
+            </div>
+
         </div>
 
-    </div>
+        <div class="row" style="margin-top:-14px">
 
-    <div class="row">
-        <div class="col-12">
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <td>Owner Name</td>
-                            <td>GST Number</td>
-                            <td>Contact Number</td>
-                            <td>Owner Address</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                       @foreach (var item in Model.ownersList)
-                       {
-                           <tr>
-                               <td>@Html.DisplayFor(modelitem=>item.OwnerName)</td>
-                               <td>@Html.DisplayFor(modelitem=>item.GSTNo)</td>
-                               <td>@Html.DisplayFor(modelitem=>item.ContactNo)</td>
-                               <td>@Html.DisplayFor(modelitem=>item.OwnerAddress)</td>
-                               <td>Invoices</td>
-                               <td><i class=""></i></td>
-                           </tr>
 
-                       }
-                    </tbody>
-                </table>
+            <div class="col-12">
+
+                <div class="table-responsive">
+                    <table class="table table-borderless table-hover device-table">
+                        <thead class="thead-dark bg-info text-white">
+                            <tr>
+                                <td>Owner Name</td>
+                                <td>GST Number</td>
+                                <td>Contact Number</td>
+                                <td>Owner Address</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ownersList)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelitem => item.OwnerName)</td>
+                                    <td>@Html.DisplayFor(modelitem => item.GSTNo)</td>
+                                    <td>@Html.DisplayFor(modelitem => item.ContactNo)</td>
+                                    <td>@Html.DisplayFor(modelitem => item.OwnerAddress)</td>
+                                    <td>Invoices</td>
+                                    <td>
+                                        <button class="btn btn-info"><span class="fa fa-edit"></span></button>
+                                        <button class="btn btn-danger"><span class="fa fa-trash"></span></button>
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
+</div>
+
+@section scripts{
+
+    <script src="~/js/jsOwner.js"></script>
+}
