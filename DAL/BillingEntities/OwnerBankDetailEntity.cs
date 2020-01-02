@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DAL.BillingEntities
 {
@@ -8,8 +9,10 @@ namespace DAL.BillingEntities
         public int Id { get; set; }
         public string BankName { get; set; }
         public string Branch { get; set; }
-        public int AccountNumber { get; set; }
+        public long AccountNumber { get; set; }
         public string IFSC { get; set; }
+        public bool IsCreated { get; set; }
+        public bool IsUpdated { get; set; }
 
     }
 }

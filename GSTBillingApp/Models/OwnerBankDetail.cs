@@ -21,7 +21,7 @@ namespace GSTBillingApp.Models
         public string Branch { get; set; }
 
         [Required(ErrorMessage = "Please Enter Account Number")]
-        public int AccountNumber { get; set; }
+        public long AccountNumber { get; set; }
 
         [Required(ErrorMessage = "Please Enter IFSC Code")]
         public string IFSC { get; set; }

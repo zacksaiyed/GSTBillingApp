@@ -300,9 +300,6 @@ function DeleteOwnerAddress() {
 
 }
 
-
-
-
 //=======================Owner Bank===================================//
 $("#btnBankModal").on('click', OpenBankModal);
 function OpenBankModal() {
@@ -341,7 +338,9 @@ function AddBankDetails() {
             BankName: $("#OwnerBank_BankName").val(),
             Branch: $("#OwnerBank_Branch").val(),
             AccountNumber: $("#OwnerBank_AccountNumber").val(),
-            IFSC: $("#OwnerBank_IFSC").val()
+            IFSC: $("#OwnerBank_IFSC").val(),
+            IsCreated: $("#OwnerBank_IsCreated").val(),
+            IsUpdated: $("#OwnerBank_IsUpdated").val()
 
         };
         OwnerBankArray.push(BankDetails);
@@ -571,4 +570,117 @@ function DeleteOwnerBankDetail() {
 
 }
 
+//=============Create Owner=================//
+$("#PerformActionBtn").on('click', AddOwner);
+function AddOwner() {
 
+    var SaveChangesForm = $("#ManageOwner");
+
+    if (SaveChangesForm.valid()) {
+
+        let AddressViewModel = {
+            AddressList: OwnerAddressArray
+        };
+
+        let BankDetailViewModel = {
+            OwnerBankList: OwnerBankArray
+        };
+
+
+        let ManageOwnerViewModel = {
+            OwnerId: $("#OwnerId").val(),
+            OwnerName: $("#OwnerName").val(),
+            GSTNumber: $("#GSTNumber").val(),
+            ContactNumber: $("#ContactNumber").val(),
+            Juridication: $("#Juridication").val(),
+            BusiniessType: $("#BusiniessType").val(),
+            OwnerAddresses: AddressViewModel,
+            OwnerBank: BankDetailViewModel
+
+        };
+
+        $.ajax({
+            url: "/Home/CreateUpdateOwner",
+            data: { model: ManageOwnerViewModel },
+            //async: false,
+            cache: true,
+            //context: document.body,
+            method: 'POST',
+            beforeSend: function () {
+
+                $(".preloader").css("display", "block");
+            },
+            success: function (data) {
+
+                if (data==="True") {
+
+                    var url = "/Home/Index";
+                    window.open(url, "_self");
+
+                }
+                else {
+                    alert('Something went wrong , please try again');
+                }
+
+
+            },
+            error: function (xhr) { // if error occured
+                alert("Error occured.please try again");
+
+            },
+
+            complete: function () {
+                $(".preloader").css("display", "none");
+
+            }
+
+        });
+
+
+
+    }
+}
+
+function DeleteOwner(ownerId) {
+    
+    $.ajax({
+        url: "/Home/DeleteOwner",
+        data: { OwnerId: ownerId},
+        //async: false,
+        cache: true,
+        //context: document.body,
+        method: 'POST',
+        beforeSend: function () {
+          
+            $(".preloader").css("display", "block");
+        },
+        success: function (data) {
+
+            if (data === "True") {
+
+
+                var url = "/Home/Index";
+                window.open(url, "_self");
+
+            } else {
+
+                alert("Somethin went wrong");
+            }
+
+        },
+        error: function (xhr) { // if error occured
+            alert("Error occured.please try again");
+
+        },
+
+        complete: function () {
+            $(".preloader").css("display", "none");
+            $("#btnBankModal").on('click', OpenBankModal);
+            $("#AddBankDetailBtn").on('click', AddBankDetails);
+            $("#OwnerBankDetailsTable tbody tr").on('click', GetBankDetailById);
+        }
+
+    });
+
+
+}

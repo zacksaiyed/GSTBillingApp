@@ -29,7 +29,7 @@ namespace DAL.BillingCommon
             dataTable.Columns.Add("Id", typeof(int));
             dataTable.Columns.Add("BankName", typeof(string));
             dataTable.Columns.Add("BranchName", typeof(string));
-            dataTable.Columns.Add("AccountNumber", typeof(int));
+            dataTable.Columns.Add("AccountNumber", typeof(long));
             dataTable.Columns.Add("IFSCCode", typeof(string));
             dataTable.Columns.Add("OwnerId", typeof(int));
             dataTable.Columns.Add("IsUpdated", typeof(bool));

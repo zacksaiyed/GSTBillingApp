@@ -1,10 +1,8 @@
 ﻿using DAL.BillingEntities;
 using DAL.BillingServices;
 using GSTBillingApp.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace GSTBillingApp.Classes
@@ -16,19 +14,19 @@ namespace GSTBillingApp.Classes
             List<OwnerListViewModel> ownerList = new List<OwnerListViewModel>();
 
             var Data = OwnerService.GetOwnerList();
-            if (Data !=null)
+            if (Data != null)
             {
 
                 foreach (var item in Data)
                 {
                     ownerList.Add(new OwnerListViewModel()
                     {
-                        ContactNo=item.ContactNo,
-                        GSTNo=item.GSTNo,
-                        Id=item.Id,
-                        OwnerAddress=item.OwnerAddress,
-                        OwnerName=item.OwnerName
-                    }); 
+                        ContactNo = item.ContactNo,
+                        GSTNo = item.GSTNo,
+                        Id = item.Id,
+                        OwnerAddress = item.OwnerAddress,
+                        OwnerName = item.OwnerName
+                    });
                 }
             }
 
@@ -53,9 +51,9 @@ namespace GSTBillingApp.Classes
             ManageOwnerViewModel model = new ManageOwnerViewModel();
             model.OwnerAddresses = new OwnerAddress();
             model.OwnerBank = new OwnerBankDetail();
-
+            model.OwnerAddresses.StateDD = clsOwnerManangement.GetStateDropDown();
             var Data = OwnerService.GetOwnerById(OwnerId);
-            if (Data !=null)
+            if (Data != null)
             {
                 model.OwnerId = Data.OwnerId;
                 model.OwnerName = Data.OwnerName;
@@ -74,21 +72,21 @@ namespace GSTBillingApp.Classes
                         City = item.City,
                         PostCode = item.PostCode,
                         StateId = item.StateId,
-                        StateValue = clsOwnerManangement.GetStateDropDown().Where(x=>x.Value==item.StateId.ToString()).Select(x=>x.Text).FirstOrDefault()
+                        StateDD = clsOwnerManangement.GetStateDropDown(),
+                        StateValue = clsOwnerManangement.GetStateDropDown().Where(x => x.Value == item.StateId.ToString()).Select(x => x.Text).FirstOrDefault()
                     });
-                    
+
                 }
 
-                foreach (var item in 
-Data.OwnerBankDetails.OwnerBankList)
+                foreach (var item in Data.OwnerBankDetails.OwnerBankList)
                 {
                     model.OwnerBank.OwnerBankList.Add(new OwnerBankDetail()
                     {
-                        Id=item.Id,
-                        BankName=item.BankName,
-                        Branch=item.Branch,
-                        AccountNumber=item.AccountNumber,
-                        IFSC=item.IFSC
+                        Id = item.Id,
+                        BankName = item.BankName,
+                        Branch = item.Branch,
+                        AccountNumber = item.AccountNumber,
+                        IFSC = item.IFSC
                     });
                 }
 
@@ -105,7 +103,7 @@ Data.OwnerBankDetails.OwnerBankList)
 
             var Data = OwnerService.GetOwnerAddressById(AddressId);
 
-            if (Data !=null )
+            if (Data != null)
             {
                 ownerAddress.Id = Data.Id;
                 ownerAddress.Street1 = Data.Street1;
@@ -118,7 +116,7 @@ Data.OwnerBankDetails.OwnerBankList)
             return ownerAddress;
         }
 
-        public static bool DeleteOwnerAddres(int AddressId , int OwnerId)
+        public static bool DeleteOwnerAddres(int AddressId, int OwnerId)
         {
             return OwnerService.DeleteOwnerAddress(AddressId, OwnerId);
         }
@@ -129,7 +127,7 @@ Data.OwnerBankDetails.OwnerBankList)
 
             var Data = OwnerService.GetOwnerBankDetail(BankId);
 
-            if (Data !=null)
+            if (Data != null)
             {
                 bankDetail.Id = Data.Id;
                 bankDetail.BankName = Data.BankName;
@@ -160,33 +158,49 @@ Data.OwnerBankDetails.OwnerBankList)
             entity.Juridication = model.Juridication;
             entity.BusinessType = model.BusiniessType;
 
-            foreach (var item in model.OwnerAddresses.AddressList)
+            if (model.OwnerAddresses !=null)
             {
-                entity.OwnerAddress.AddressList.Add(new OwnerAddressEntity()
+                foreach (var item in model.OwnerAddresses.AddressList)
                 {
-                    Street1 = item.Street1,
-                    City = item.City,
-                    Id = item.Id,
-                    PostCode = item.PostCode,
-                    StateId = item.StateId,
-                    Street2 = item.Street2
-                });
+                    entity.OwnerAddress.AddressList.Add(new OwnerAddressEntity()
+                    {
+                        Street1 = item.Street1,
+                        City = item.City,
+                        Id = item.Id,
+                        PostCode = item.PostCode,
+                        StateId = item.StateId,
+                        Street2 = item.Street2,
+                        IsCreated = item.IsCreated,
+                        IsUpdated = item.IsUpdated
+
+                    });
+                } 
             }
 
-            foreach (var item in model.OwnerBank.OwnerBankList)
+            if (model.OwnerBank !=null)
             {
-                entity.OwnerBankDetails.OwnerBankList.Add(new OwnerBankDetailEntity()
+                foreach (var item in model.OwnerBank.OwnerBankList)
                 {
-                    AccountNumber=item.AccountNumber,
-                    BankName=item.BankName,
-                    Branch=item.Branch,
-                    Id=item.Id,
-                    IFSC=item.IFSC
-                });
+                    entity.OwnerBankDetails.OwnerBankList.Add(new OwnerBankDetailEntity()
+                    {
+                        AccountNumber = item.AccountNumber,
+                        BankName = item.BankName,
+                        Branch = item.Branch,
+                        Id = item.Id,
+                        IFSC = item.IFSC,
+                        IsCreated = item.IsCreated,
+                        IsUpdated = item.IsUpdated
+                    });
+                } 
             }
 
             return OwnerService.CreateUpdateOwner(entity);
-                
+
+        }
+
+        public static bool DeleteOwner(int OwnerId)
+        {
+            return OwnerService.DeleteOwner(OwnerId);
         }
 
     }

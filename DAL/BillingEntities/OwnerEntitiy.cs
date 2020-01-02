@@ -11,7 +11,7 @@ namespace DAL.BillingEntities
         public int Id { get; set; }
         public string OwnerName { get; set; }
         public string GSTNo { get; set; }
-        public int ContactNo { get; set; }
+        public long ContactNo { get; set; }
         public string OwnerAddress { get; set; }
     }
 }

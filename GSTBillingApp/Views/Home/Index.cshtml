@@ -15,8 +15,7 @@
             <div class="col-4 ">
                 <div class="form-group text-right">
 
-
-                    <button class="btn btn-info" type="button">Add  Owner <span class="fa fa-plus"></span></button>
+                    <a class="btn btn-info" href="@Url.Action("ManageOwner", "Home")"><span class="fa fa-plus"></span></a>
 
                 </div>
             </div>
@@ -48,10 +47,10 @@
                                     <td>@Html.DisplayFor(modelitem => item.GSTNo)</td>
                                     <td>@Html.DisplayFor(modelitem => item.ContactNo)</td>
                                     <td>@Html.DisplayFor(modelitem => item.OwnerAddress)</td>
-                                    <td>Invoices</td>
+                                    <td><a class="btn btn-info" href="#"><span class="fa fa-file-invoice-dollar"> Invoices</span></a></td>
                                     <td>
-                                        <button class="btn btn-info"><span class="fa fa-edit"></span></button>
-                                        <button class="btn btn-danger"><span class="fa fa-trash"></span></button>
+                                        <a class="btn btn-info" href="@Url.Action("ManageOwner", "Home",new {OwnerId=item.Id })"><span class="fa fa-edit"></span></a>
+                                        <button class="btn btn-danger" type="button" onclick="DeleteOwner(@item.Id)"><span class="fa fa-trash"></span></button>
                                     </td>
                                 </tr>
 

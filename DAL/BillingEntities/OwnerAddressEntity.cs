@@ -11,7 +11,9 @@ namespace DAL.BillingEntities
         public string City { get; set; }
         public int PostCode { get; set; }
         public int StateId { get; set; }
-        
+        public bool IsCreated { get; set; }
+        public bool IsUpdated { get; set; }
+
 
     }
 }

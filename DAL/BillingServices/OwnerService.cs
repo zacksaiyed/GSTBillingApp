@@ -62,7 +62,7 @@ namespace DAL.BillingServices
                             Id = Convert.ToInt32(ds.Tables[0].Rows[i]["Id"].ToString()),
                             OwnerName = ds.Tables[0].Rows[i]["OwnerName"].ToString(),
                             GSTNo = ds.Tables[0].Rows[i]["GSTNo"].ToString(),
-                            ContactNo = Convert.ToInt32(ds.Tables[0].Rows[i]["ContactNo"].ToString()),
+                            ContactNo = Convert.ToInt64(ds.Tables[0].Rows[i]["ContactNo"].ToString()),
                             OwnerAddress = ds.Tables[0].Rows[i]["OwnerAddress"].ToString()
 
                         });
@@ -103,7 +103,7 @@ namespace DAL.BillingServices
                     {
                         entity.OwnerId = Convert.ToInt32(ds.Tables[0].Rows[i]["Id"].ToString());
                         entity.OwnerName = ds.Tables[0].Rows[i]["OwnerName"].ToString();
-                        entity.ContactNo = Convert.ToInt32(ds.Tables[0].Rows[i]["ContactNo"].ToString());
+                        entity.ContactNo = Convert.ToInt64(ds.Tables[0].Rows[i]["ContactNo"].ToString());
                         entity.GSTNo = ds.Tables[0].Rows[i]["GSTNo"].ToString();
                         entity.Juridication = ds.Tables[0].Rows[i]["Juridication"].ToString();
                         entity.BusinessType = ds.Tables[0].Rows[i]["BusinessType"].ToString();
@@ -139,7 +139,7 @@ namespace DAL.BillingServices
                             Id = Convert.ToInt32(ds.Tables[2].Rows[i]["Id"].ToString()),
                             BankName = ds.Tables[2].Rows[i]["BankName"].ToString(),
                             Branch = ds.Tables[2].Rows[i]["BranchName"].ToString(),
-                            AccountNumber = Convert.ToInt32(ds.Tables[2].Rows[i]["AccountNumber"].ToString()),
+                            AccountNumber = Convert.ToInt64(ds.Tables[2].Rows[i]["AccountNumber"].ToString()),
                             IFSC = ds.Tables[2].Rows[i]["IFSCCode"].ToString()
                         
 });
@@ -240,7 +240,7 @@ namespace DAL.BillingServices
                         owner.Id = Convert.ToInt32(ds.Tables[0].Rows[i]["Id"].ToString());
                         owner.BankName = ds.Tables[0].Rows[i]["BankName"].ToString();
                         owner.Branch = ds.Tables[0].Rows[i]["BranchName"].ToString();
-                        owner.AccountNumber = Convert.ToInt32(ds.Tables[0].Rows[i]["AccountNumber"].ToString());
+                        owner.AccountNumber = Convert.ToInt64(ds.Tables[0].Rows[i]["AccountNumber"].ToString());
                         owner.IFSC = ds.Tables[0].Rows[i]["IFSCCode"].ToString();
 
                     }
@@ -289,14 +289,14 @@ namespace DAL.BillingServices
                 DataTable AddressTable = UserDefinedDataTable.AddressDataTable();
                 foreach (var item in response.OwnerAddress.AddressList)
                 {
-                    AddressTable.Rows.Add(item.Id, item.Street1, item.Street2, item.City, item.PostCode, item.StateId,response.OwnerId);
+                    AddressTable.Rows.Add(item.Id, item.Street1, item.Street2, item.City, item.PostCode, item.StateId,response.OwnerId,item.IsCreated,item.IsUpdated);
 
                 }
 
                 DataTable BankTable = UserDefinedDataTable.BankDataTable();
                 foreach (var item in response.OwnerBankDetails.OwnerBankList)
                 {
-                    BankTable.Rows.Add(item.Id, item.BankName, item.Branch, item.AccountNumber, item.IFSC, response.OwnerId);
+                    BankTable.Rows.Add(item.Id, item.BankName, item.Branch, item.AccountNumber, item.IFSC, response.OwnerId,item.IsCreated,item.IsCreated);
                 }
 
                 //con.Open();
@@ -322,12 +322,33 @@ namespace DAL.BillingServices
             catch (Exception ex)
             {
 
-                throw;
+                ApplicationCommon.WriteLog(ex.Message);
 
             }
 
             return false;
 
+        }
+
+        public static bool DeleteOwner(int OwnerId)
+        {
+            try
+            {
+                SqlParameter[] values =
+                {
+                    new SqlParameter("@OwnerId",OwnerId)
+                };
+                var i = SqlHelper.ExecuteSp("USP_DeleteOwner", values);
+
+                return i > 0;
+            }
+            catch (Exception ex)
+            {
+
+                ApplicationCommon.WriteLog(ex.Message);
+            }
+
+            return false;
         }
 
     }

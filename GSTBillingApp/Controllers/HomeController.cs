@@ -19,28 +19,27 @@ namespace GSTBillingApp.Controllers
         public ActionResult ManageOwner(int OwnerId = 0)
         {
             ManageOwnerViewModel model = new ManageOwnerViewModel();
-            model.OwnerAddresses = new OwnerAddress();
-            model.OwnerAddresses.StateDD = clsOwnerManangement.GetStateDropDown();
-            model.OwnerBank = new OwnerBankDetail();
+            model = clsOwnerManangement.GetOwnerById(OwnerId);
+            if (model == null)
+            {
+                model.OwnerAddresses = new OwnerAddress();
+                model.OwnerBank = new OwnerBankDetail();
+                model.OwnerAddresses.StateDD = clsOwnerManangement.GetStateDropDown();
+
+            }
+
 
             return View(model);
         }
 
-        [HttpPost]
-        public ActionResult ManageOwner(ManageOwnerViewModel model)
+
+        public bool CreateUpdateOwner(ManageOwnerViewModel model)
         {
-            if (clsOwnerManangement.CreateUpdateOwner(model))
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                model = new ManageOwnerViewModel();
-                
-            }
-            return View(model);
-            
+            //return false;
+            return clsOwnerManangement.CreateUpdateOwner(model);
+
         }
+
         public ActionResult _Address(List<OwnerAddress> response, int OwnerId)
         {
             ManageOwnerViewModel model = new ManageOwnerViewModel();
@@ -131,14 +130,14 @@ namespace GSTBillingApp.Controllers
 
         }
 
-        public JsonResult GetAddressById(int AddressId, OwnerAddress[] uiAddresses, string AddressGUID)
+        public JsonResult GetAddressById(int AddressId, List<OwnerAddress> uiAddresses, string AddressGUID)
         {
             if (AddressGUID != null)
             {
-                var uiAddressList = uiAddresses.ToList();
-                if (uiAddressList != null)
+
+                if (uiAddresses != null)
                 {
-                    var Uiresponse = uiAddressList.Where(x => x.AddressUIId == AddressGUID).LastOrDefault();
+                    var Uiresponse = uiAddresses.Where(x => x.AddressUIId == AddressGUID).LastOrDefault();
 
                     return Json(Uiresponse);
                 }
@@ -237,14 +236,13 @@ namespace GSTBillingApp.Controllers
 
         }
 
-        public JsonResult GetBankDetailById(int BankId, OwnerBankDetail[] uiBanks, string BankGUID)
+        public JsonResult GetBankDetailById(int BankId, List<OwnerBankDetail> uiBanks, string BankGUID)
         {
-            if (BankGUID != null)
+            if (BankGUID != "")
             {
-                var uiBanksList = uiBanks.ToList();
-                if (uiBanksList != null)
+                if (uiBanks != null)
                 {
-                    var Uiresponse = uiBanksList.Where(x => x.BankUID == BankGUID).LastOrDefault();
+                    var Uiresponse = uiBanks.Where(x => x.BankUID == BankGUID).LastOrDefault();
 
                     return Json(Uiresponse);
                 }
@@ -265,6 +263,10 @@ namespace GSTBillingApp.Controllers
             return clsOwnerManangement.DeleteBankDetails(BankId, OwnerId);
         }
 
+        public bool DeleteOwner(int OwnerId)
+        {
+            return clsOwnerManangement.DeleteOwner(OwnerId);
+        }
 
 
 
