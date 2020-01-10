@@ -29,7 +29,6 @@ namespace GSTBillingApp.Models
         [Required(ErrorMessage ="Please Select State")]
         public int StateId { get; set; }
         public List<SelectListItem> StateDD { get; set; }
-
         public string StateValue { get; set; }
 
         public bool IsCreated { get; set; }
