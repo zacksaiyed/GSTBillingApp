@@ -47,6 +47,8 @@
     <Compile Include="BillingCommon\ApplicationConstant.cs" />
     <Compile Include="BillingCommon\SqlHelper.cs" />
     <Compile Include="BillingCommon\UserDefinedDataTable.cs" />
+    <Compile Include="BillingEntities\InvoiceDetailsEntitiy.cs" />
+    <Compile Include="BillingEntities\InvoiceEntitiy.cs" />
     <Compile Include="BillingEntities\ManageOwnerEntity.cs" />
     <Compile Include="BillingEntities\OwnerAddressEntity.cs" />
     <Compile Include="BillingEntities\OwnerBankDetailEntity.cs" />

@@ -124,9 +124,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Classes\clsOwnerManangement.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Invoice1Controller.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\InvoiceListViewModel.cs" />
     <Compile Include="Models\ManageOwnerViewModel.cs" />
     <Compile Include="Models\OwnerAddress.cs" />
     <Compile Include="Models\OwnerBankDetail.cs" />
@@ -2249,6 +2251,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Invoice1\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

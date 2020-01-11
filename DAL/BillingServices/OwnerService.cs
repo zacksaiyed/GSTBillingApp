@@ -44,7 +44,6 @@ namespace DAL.BillingServices
             return stateList;
         }
         #endregion
-
         public static List<OwnerEntitiy> GetOwnerList()
         {
             List<OwnerEntitiy> ownerList = new List<OwnerEntitiy>();
@@ -141,8 +140,8 @@ namespace DAL.BillingServices
                             Branch = ds.Tables[2].Rows[i]["BranchName"].ToString(),
                             AccountNumber = Convert.ToInt64(ds.Tables[2].Rows[i]["AccountNumber"].ToString()),
                             IFSC = ds.Tables[2].Rows[i]["IFSCCode"].ToString()
-                        
-});
+
+                        });
                     }
 
                 }
@@ -170,7 +169,7 @@ namespace DAL.BillingServices
                 };
                 var ds = SqlHelper.GetResultSet("USP_GetOwnerAddressById", values);
 
-                if (ds.Tables[0].Rows.Count>0)
+                if (ds.Tables[0].Rows.Count > 0)
                 {
                     for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
                     {
@@ -196,7 +195,7 @@ namespace DAL.BillingServices
             return ownerAddressEntity;
         }
 
-        public static bool DeleteOwnerAddress(int AddressId ,int OwnerId)
+        public static bool DeleteOwnerAddress(int AddressId, int OwnerId)
         {
             try
             {
@@ -204,7 +203,7 @@ namespace DAL.BillingServices
                 {
                     new SqlParameter("@OwnerId",OwnerId),
                     new SqlParameter("@AddressId",AddressId)
-                    
+
                 };
 
                 var i = SqlHelper.ExecuteSp("USP_DeleteOwnerAddress", values);
@@ -264,6 +263,9 @@ namespace DAL.BillingServices
                     new SqlParameter("@OwnerId",OwnerId),
                     new SqlParameter("@BankId",BankId)
 
+
+
+
                 };
 
                 var i = SqlHelper.ExecuteSp("USP_DeleteBankDetail", values);
@@ -289,14 +291,14 @@ namespace DAL.BillingServices
                 DataTable AddressTable = UserDefinedDataTable.AddressDataTable();
                 foreach (var item in response.OwnerAddress.AddressList)
                 {
-                    AddressTable.Rows.Add(item.Id, item.Street1, item.Street2, item.City, item.PostCode, item.StateId,response.OwnerId,item.IsCreated,item.IsUpdated);
+                    AddressTable.Rows.Add(item.Id, item.Street1, item.Street2, item.City, item.PostCode, item.StateId, response.OwnerId, item.IsCreated, item.IsUpdated);
 
                 }
 
                 DataTable BankTable = UserDefinedDataTable.BankDataTable();
                 foreach (var item in response.OwnerBankDetails.OwnerBankList)
                 {
-                    BankTable.Rows.Add(item.Id, item.BankName, item.Branch, item.AccountNumber, item.IFSC, response.OwnerId,item.IsCreated,item.IsCreated);
+                    BankTable.Rows.Add(item.Id, item.BankName, item.Branch, item.AccountNumber, item.IFSC, response.OwnerId, item.IsCreated, item.IsCreated);
                 }
 
                 //con.Open();
@@ -311,7 +313,7 @@ namespace DAL.BillingServices
                     new SqlParameter("@BusinessType",response.BusinessType),
                     new SqlParameter("@OwnerAddresses",AddressTable),
                     new SqlParameter("@OwnerBankDetails",BankTable)
-                    
+
 
                 };
 
@@ -351,5 +353,9 @@ namespace DAL.BillingServices
             return false;
         }
 
+        public static ManageInvoiceEntity GetInvoiceByOwnerId(int OwnerId)
+        {
+
+        }
     }
 }
